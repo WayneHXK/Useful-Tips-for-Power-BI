@@ -3,7 +3,6 @@ DIM Time =
 VAR Opening = 9    // 上班开始时间 9:00
 VAR Closing = 17    // 上班开始时间 17:00
 
-
 VAR TimeSlot = 30    // 每30分钟一个时间段
 VAR Offset = (TimeSlot / 2) - 1
 
@@ -12,8 +11,8 @@ ADDCOLUMNS (
     GENERATESERIES (0, 1439, 1),     // 1天有 24小时*60分钟 = 1440秒，再减去1 (初始时间 12am)
     "Hour", HOUR(TIME(0, [Value], 0)),
     "Minute", MINUTE(TIME (0, [Value], 0)), 
-    "Hour Minute 24h", FORMAT(TIME(0, [Value], 0), "hh:mm"),
-    "Hour Minute 12h", FORMAT(TIME(0, [Value], 0), "hh:mm AM/PM"),
-    "30 Minute Slot", FORMAT(TIME(0, MROUND(([Value] + Offset), TimeSlot), 0), "hh:mm"), // MROUND: 将数值取整到最接近 TimeSlot 的倍数
-    "Working Hours", IF(([Value] / 60) >= Opening && ([Value] / 60) <= Closing,"Yes","No") 
+    "24hHourMinute", FORMAT(TIME(0, [Value], 0), "hh:mm"),
+    "12hHourMinute", FORMAT(TIME(0, [Value], 0), "hh:mm AM/PM"),
+    "30MinuteSlot", FORMAT(TIME(0, MROUND(([Value] + Offset), TimeSlot), 0), "hh:mm"), // MROUND: 将数值取整到最接近 TimeSlot 的倍数
+    "WorkingHours", IF(([Value] / 60) >= Opening && ([Value] / 60) <= Closing,"Yes","No") 
 )
