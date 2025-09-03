@@ -39,7 +39,7 @@ GENERATE(
    "YearMonthSort", year & monthnum2,  // 比如202501
    "Year-Month", year & "-" & monthabbr, // 比如2025-Jan
    "Year-Quarter", year &"-" & quarter,    // 比如2025-Q1
-   "Fiscal Year", fiscalyear,     // FY2025
+   "FiscalYear", fiscalyear,     // FY2025
    "FiscalMonthNum", fiscalmonthnum,  // 比如2025年12月，对应数字3
    "FiscalYearMonthSort", fiscalyearNum & fiscalmonthnum, //比如202504，对应2025年1月份
    "FicalYear-Month", fiscalyear & "-" & monthabbr,  // 比如 FY2025-Feb
