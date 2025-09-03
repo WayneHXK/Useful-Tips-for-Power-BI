@@ -6,7 +6,7 @@ VAR RoundingOffset = (TimeSlotDuration / 2) - 1
 
 RETURN
 ADDCOLUMNS (
-    GENERATESERIES (0, 1439, 1),     // 1天有 24小时*60分钟 = 1440分钟，从0到1439
+    GENERATESERIES (0, 1439, 1),     // 1天有: 24小时*60分钟 = 1440分钟，从0到1439
     "Hour", HOUR(TIME(0, [Value], 0)),
     "Minute", MINUTE(TIME (0, [Value], 0)), 
     "24hHourMinute", FORMAT(TIME(0, [Value], 0), "hh:mm"),
