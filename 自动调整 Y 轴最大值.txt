@@ -1,5 +1,5 @@
 Y Axis Max Dynamic = 
-VAR MaxValue = MAXX(ALLSELECTED('YourTableName'[Category]), [Sales Amount]) // 获取当前上下文下所有可见类别的最大值
+VAR MaxValue = MAXX(ALLSELECTED('YourTableName'[Category]), [度量值，如销售额、总数量等]) // 获取当前上下文下所有可见类别的最大值
 VAR BufferFactor = 1.1 // 缓冲区因子，例如 1.1 表示增加 10% 的空间。可根据需要调整 (1.05 - 1.2 通常合适)
 RETURN
 IF(
