@@ -1,0 +1,24 @@
+//日期表新增当前财年计算列，放入切片器，选中Current Fiscal Year
+CurrentFiscalYear = 
+VAR CurrentFiscalYear = 
+    IF(
+        MONTH(TODAY()) >= 10,
+        "FY" & (YEAR(TODAY()) + 1),
+        "FY" & YEAR(TODAY())
+    )
+RETURN
+IF(
+    'DIM DateTable'[FiscalYear] = CurrentFiscalYear,
+    "Current Fiscal Year",
+    'DIM DateTable'[FiscalYear]
+)
+
+//日期表新增当前月份计算列，放入切片器，选中Current Month
+CurrentMonthAbbr = 
+VAR CurrentMonthAbbr = FORMAT(TODAY(), "MMM")
+RETURN
+IF(
+    'DIM DateTable'[MonthAbbr] = CurrentMonthAbbr,
+    "Current Month",
+    'DIM DateTable'[MonthAbbr]
+)
