@@ -1,5 +1,5 @@
 DIM DateTable = 
-    GENERATE(
+GENERATE(
     CALENDARAUTO(9),     // 财年的最后一个月，比如9月
     VAR CurrentDay = [Date]
     VAR DateKey = FORMAT([Date], "YYYYMMDD")
@@ -44,3 +44,4 @@ DIM DateTable =
         "FiscalYear-Quarter", FiscalYear & "-" & FiscalQuarter    // 财年财季 FY2025-Q1
     )
 )
+
