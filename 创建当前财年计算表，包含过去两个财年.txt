@@ -1,0 +1,30 @@
+DIM ThisFYandPrevious = 
+VAR TodayDate = TODAY()
+VAR CurrentYear = YEAR( TodayDate )
+VAR CurrentMonth = MONTH( TodayDate )
+VAR FiscalYearNum = CurrentYear + IF( CurrentMonth >= 10, 1, 0 )
+VAR LastFiscalYearNum = FiscalYearNum - 1
+VAR LastLastFiscalYearNum = FiscalYearNum - 2
+VAR FiscalQuarter = 
+    "Q" & 
+    IF( QUARTER( TodayDate ) = 4, 
+        1, 
+        QUARTER( TodayDate ) + 1 
+    )
+VAR FiscalPeriod = 
+    "P" & 
+    IF( CurrentMonth >= 10, 
+        CurrentMonth - 9, 
+        CurrentMonth + 3 
+    )
+RETURN
+    SELECTCOLUMNS(
+        { TodayDate },
+        "Today", TodayDate,
+        "Year", CurrentYear,
+        "FYNum", "FY" & FiscalYearNum,
+        "LastFYNum", "FY" & LastFiscalYearNum,
+        "LastLastFYNum", "FY" & LastLastFiscalYearNum,
+        "FiscalQuarter", FiscalQuarter,
+        "FiscalPeriod", FiscalPeriod
+    )
