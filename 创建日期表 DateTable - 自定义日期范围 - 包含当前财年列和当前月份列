@@ -1,0 +1,80 @@
+DIM DateTable = 
+VAR MinDate = MIN(事实表里的日期列)
+VAR MaxDate = MAX(事实表里的日期列)
+VAR BaseTable = CALENDAR(MinDate, MaxDate)
+VAR CurrentDate = TODAY()  // 获取当前日期用于比较
+RETURN
+GENERATE(
+    BaseTable,
+    VAR CurrentDay = [Date]
+    
+    // 基础日期组件
+    VAR DateKey = FORMAT(CurrentDay, "YYYYMMDD")
+    VAR Year = YEAR(CurrentDay)
+    VAR Quarter = "Q" & QUARTER(CurrentDay)
+    VAR MonthNum = MONTH(CurrentDay)
+    VAR MonthNum2Digit = FORMAT(CurrentDay, "MM")
+    VAR MonthAbbr = FORMAT(CurrentDay, "MMM")
+    VAR MonthFullName = FORMAT(CurrentDay, "MMMM")
+    VAR Day = DAY(CurrentDay)
+    VAR WeekId = WEEKDAY(CurrentDay, 1)
+    VAR WeekdayName = FORMAT(CurrentDay, "dddd")
+    VAR WeekdayAbbr = FORMAT(CurrentDay, "ddd")
+    VAR WeekNum = WEEKNUM(CurrentDay, 1)
+    
+    // 财年相关计算
+    VAR FiscalYearNum = IF(MonthNum < 10, Year, Year + 1)
+    VAR FiscalYear = "FY" & FiscalYearNum
+    VAR FiscalQuarterNum = IF(QUARTER(CurrentDay) = 4, 1, QUARTER(CurrentDay) + 1)
+    VAR FiscalQuarter = "Q" & FiscalQuarterNum
+    VAR FiscalMonthNum = IF(MonthNum >= 10, MonthNum - 9, MonthNum + 3)
+    
+    // 当前财年逻辑
+    VAR CurrentFiscalYear = 
+        IF(
+            MONTH(CurrentDate) >= 10,
+            "FY" & (YEAR(CurrentDate) + 1),
+            "FY" & YEAR(CurrentDate)
+        )
+    VAR CurrentFiscalYearColumn = 
+        IF(
+            FiscalYear = CurrentFiscalYear,
+            "Current FY",
+            FiscalYear
+        )
+    
+    // 当前月份逻辑
+    VAR CurrentMonthAbbrValue = FORMAT(CurrentDate, "MMM")
+    VAR CurrentMonthAbbrColumn = 
+        IF(
+            MonthAbbr = CurrentMonthAbbrValue,
+            "Current Month",
+            MonthAbbr
+        )
+   
+    RETURN ROW(
+        "DateKey", DateKey,
+        "Year", Year,
+        "Quarter", Quarter,
+        "MonthNum", MonthNum2Digit,
+        "MonthAbbr", MonthAbbr,
+        "MonthName", MonthFullName,
+        "Day", Day,
+        "WeekID", WeekId,
+        "WeekdayName", WeekdayName,
+        "WeekdayAbbr", WeekdayAbbr,
+        "WeekNum", WeekNum,
+        "YearMonthSort", Year & MonthNum2Digit,
+        "Year-Month", Year & "-" & MonthAbbr,
+        "Year-Quarter", Year & "-" & Quarter,
+        "FiscalYear", FiscalYear,
+        "FiscalMonthNum", FiscalMonthNum,
+        "FiscalYearMonthSort", FiscalYearNum & FORMAT(FiscalMonthNum, "00"),
+        "FiscalYear-Month", FiscalYear & "-" & MonthAbbr,
+        "FiscalQuarter", FiscalQuarter,
+        "FiscalQuarterSort", FiscalYearNum & FORMAT(FiscalQuarterNum, "00"),
+        "FiscalYear-Quarter", FiscalYear & "-" & FiscalQuarter,
+        "CurrentFiscalYear", CurrentFiscalYearColumn,    // 切片器中选择这列，然后再选择CurrentFY。在日期表中，选中这列，“按列排序”菜单，选择按FiscalYear排序
+        "CurrentMonthAbbr", CurrentMonthAbbrColumn    // 切片器中选择这列，然后再选择CurrentMonth。在日期表中，选中这列，“按列排序”菜单，选择按FiscalMonthNum排序
+    )
+)
