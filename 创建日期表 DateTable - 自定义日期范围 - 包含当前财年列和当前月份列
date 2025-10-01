@@ -3,6 +3,9 @@ VAR MinDate = MIN(事实表里的日期列)
 VAR MaxDate = MAX(事实表里的日期列)
 VAR BaseTable = CALENDAR(MinDate, MaxDate)
 VAR CurrentDate = TODAY()  // 获取当前日期用于比较
+VAR CurrentYear = YEAR(CurrentDate)
+VAR CurrentMonth = MONTH(CurrentDate)
+
 RETURN
 GENERATE(
     BaseTable,
@@ -44,10 +47,11 @@ GENERATE(
         )
     
     // 当前月份逻辑
-    VAR CurrentMonthAbbrValue = FORMAT(CurrentDate, "MMM")
+    VAR IsCurrentMonth = 
+        (Year = CurrentYear && MonthNum = CurrentMonth)
     VAR CurrentMonthAbbrColumn = 
         IF(
-            MonthAbbr = CurrentMonthAbbrValue,
+            IsCurrentMonth,
             "Current Month",
             MonthAbbr
         )
