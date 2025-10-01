@@ -15,10 +15,14 @@ IF(
 
 //日期表新增当前月份计算列，放入切片器，选中Current Month
 CurrentMonthAbbr = 
-VAR CurrentMonthAbbr = FORMAT(TODAY(), "MMM")
+VAR CurrentDate = TODAY()
+VAR CurrentYear = YEAR(CurrentDate)
+VAR CurrentMonth = MONTH(CurrentDate)
+VAR RowYear = YEAR('DIM DateTable'[Date])  // 获取当前行的年份
+VAR RowMonth = MONTH('DIM DateTable'[Date]) // 获取当前行的月份
 RETURN
 IF(
-    'DIM DateTable'[MonthAbbr] = CurrentMonthAbbr,
+    RowYear = CurrentYear && RowMonth = CurrentMonth,
     "Current Month",
     'DIM DateTable'[MonthAbbr]
 )
