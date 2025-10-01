@@ -3,6 +3,8 @@ DIM DateTable =
     CALENDARAUTO(9),     // 财年的最后一个月，比如9月
     VAR CurrentDay = [Date]
     VAR CurrentDate = TODAY()  // 获取当前日期用于比较
+    VAR CurrentYear = YEAR(CurrentDate)
+    VAR CurrentMonth = MONTH(CurrentDate)
     
     // 基础日期组件
     VAR DateKey = FORMAT(CurrentDay, "YYYYMMDD")
@@ -40,10 +42,11 @@ DIM DateTable =
         )
     
     // 当前月份逻辑
-    VAR CurrentMonthAbbrValue = FORMAT(CurrentDate, "MMM")
+    VAR IsCurrentMonth = 
+        (Year = CurrentYear && MonthNum = CurrentMonth)
     VAR CurrentMonthAbbrColumn = 
         IF(
-            MonthAbbr = CurrentMonthAbbrValue,
+            IsCurrentMonth,
             "Current Month",
             MonthAbbr
         )
