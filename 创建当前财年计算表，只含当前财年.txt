@@ -1,0 +1,35 @@
+DIM TodayInfo = 
+VAR TodayDate = TODAY()
+VAR CurrentYear = YEAR(TodayDate)
+VAR CurrentMonth = MONTH(TodayDate)
+
+// 财年计算逻辑（10月为起始月）
+VAR FiscalYear = 
+    IF(
+        CurrentMonth >= 10,
+        "FY" & (CurrentYear + 1),
+        "FY" & CurrentYear
+    )
+
+// 财季计算逻辑（基于10月起始）
+VAR FiscalQuarter = 
+    VAR QuarterNUM = 
+        IF(QUARTER(TodayDate) = 4, 
+            1, 
+            QUARTER(TodayDate) + 1
+        )
+    RETURN "Q" & QuarterNUM
+
+RETURN
+SELECTCOLUMNS(
+    {TodayDate},
+    "Today", TodayDate,
+    "Year", CurrentYear,
+    "Fiscal Year", FiscalYear,
+    "Fiscal Quarter", FiscalQuarter,
+    "Fiscal Period", 
+        "P" & IF(CurrentMonth >= 10, 
+                 CurrentMonth - 9, 
+                 CurrentMonth + 3
+        )
+)
